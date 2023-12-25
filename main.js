@@ -79,25 +79,19 @@ function getResult() {
         if (typeof operation[2] === 'string') operation[2] = Number(operation[2]);
         if (operation[1] === "+") {
             currentResult = operation[0] + operation[2];
-            emptyArray();
-            operation.push(currentResult);
         } else if (operation[1] === "-") {
             currentResult = operation[0] - operation[2];
-            emptyArray();
-            operation.push(currentResult);
         } else if (operation[1] === "x") {
             currentResult = operation[0] * operation[2];
-            emptyArray();
-            operation.push(currentResult);
         } else if (operation[1] === "÷") {
             if (operation[2] === 0) {
                 emptyArray();
                 return header.textContent = "Really?";
             }
             currentResult = operation[0] / operation[2];
-            emptyArray();
-            operation.push(currentResult);
         }
+        emptyArray();
+        operation.push(String(currentResult));
         currentResult = checkResultLen(currentResult);
         header.textContent = currentResult;
     }
@@ -110,6 +104,11 @@ clearButton.addEventListener("click", () => {
 
 deleteButton.addEventListener("click", () => {
     if (operation.length === 1) {
+        if (currentResult !== 0) {
+            currentResult = 0;
+            emptyArray();
+            return header.textContent = "0";
+        }
         if (operation[0].length === 1 || operation[0].length === 0) {
             emptyArray();
             return header.textContent = "0";
